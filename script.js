@@ -20,6 +20,32 @@ add.onclick = function () {
     arrNote.push(note);
     document.querySelector('.note-navigation').appendChild(noteIcon);
 }
+//показ экрата с информацией заметки(текстом названием)
+function displayTextArea(name,text) {
+    let section = document.getElementById('text');
+    section.textContent = '';
+    let input = document.createElement('input');
+    input.value = name;
+    input.id = 'nameN';
+    let tab = document.createElement('p');
+    let textArea = document.createElement('textarea');
+    textArea.value = text;
+    textArea.id = 'textN';
+    section.appendChild(input);
+    section.appendChild(tab);
+    textArea.setAttribute('class', 'text-note');
+    textArea.classList.add("textArea");
+    section.appendChild(textArea);
+    //изменения названия заметки
+    input.oninput = function () {
+        document.querySelector('.note-selected').textContent = input.value;
+    }
+    //изменения текста в заметке
+    textArea.oninput = function() {
+        document.querySelector('.note-selected').textContent = textArea.value;
+    }
+
+}
 //перемещение между заметками(выбор)
 document.querySelector('.note-navigation').onclick = function(event) {
     let idNote = event.target.id;
@@ -33,9 +59,11 @@ document.querySelector('.note-navigation').onclick = function(event) {
     }
     selectedNote.isSelected = true;
     document.getElementById(idNote).classList.add('note-selected');
-    displayTextArea(selectedNote.id,selectedNote.noteText)
+    displayTextArea(selectedNote.noteName,selectedNote.noteText);
+    document.getElementById('nameN').value = selectedNote.noteName;
+    document.getElementById('textN').value = selectedNote.noteText;
 }
-//изменения
+
 //Пересмена заметки(удаление выделения)
 function unselectedCN(){
     let choseNote = document.querySelector('.note-selected');
@@ -54,20 +82,6 @@ function getRandomID(min, max) {
     let int = Math.floor(Math.random() * (max - min + 1)) + min;
     return int.toString();
 }
-//показ экрата с информацией заметки(текстом названием)
-function displayTextArea(name,text) {
-    let section = document.getElementById('text');
-    section.textContent = '';
-    let input = document.createElement('input');
-    input.value = name;
-    let tab = document.createElement('p');
-    let textArea = document.createElement('textarea');
-    textArea.value = text;
-    section.appendChild(input);
-    section.appendChild(tab);
-    textArea.setAttribute('class', 'text-note');
-    textArea.classList.add("textArea");
-    section.appendChild(textArea);
-}
+
 
 
