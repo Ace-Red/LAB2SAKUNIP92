@@ -1,4 +1,3 @@
-'use strict';
 let add = document.querySelector('.add');
 let del = document.querySelector('.del');
 //массив обьектов (заметок)
@@ -67,11 +66,13 @@ document.querySelector('.note-navigation').onclick = function (event) {
         selectedNote.noteText = textArea.value;
         selectedNote.time = new Date().toLocaleTimeString() + " " + new Date().toLocaleDateString();
         selectedNote.timeView.innerText = selectedNote.time;
-
+        if (arrNote[0].isSelected === false) {
+            sortNoteMenu();
+        }
     }
     input.onchange = function () {
         for (let i = 0; i < arrNote.length; i++) {
-            if (arrNote[i].selected === true) {
+            if (arrNote[i].isSelected === true) {
                 break;
             }
         }
@@ -81,11 +82,13 @@ document.querySelector('.note-navigation').onclick = function (event) {
         selectedNote.noteText = textArea.value;
         selectedNote.time = new Date().toLocaleTimeString() + " " + new Date().toLocaleDateString();
         selectedNote.timeView.innerText = selectedNote.time;
-
+        if (arrNote[0].isSelected === false) {
+            sortNoteMenu();
+        }
     }
     textArea.onchange = function () {
         for (let i = 0; i < arrNote.length; i++) {
-            if (arrNote[i].selected === true) {
+            if (arrNote[i].isSelected === true) {
                 arrNote[i].noteText = document.getElementById('textN').value;
                 break;
             }
@@ -97,7 +100,7 @@ document.querySelector('.note-navigation').onclick = function (event) {
 //обновление окна
 window.onbeforeunload = function () {
     for (let i = 0; i < arrNote.length; i++) {
-        if (arrNote[i].selected === true) {
+        if (arrNote[i].isSelected === true) {
             arrNote[i].noteName = document.getElementById('nameN').value;
             arrNote[i].noteText = document.getElementById('textN').value;
             break;
@@ -119,12 +122,10 @@ window.onload = function () {
         const noteName = document.createElement('span');
         noteName.id = arrNote[i].id + 'n';
         noteIcon.id = arrNote[i].id;
-        // noteIcon.textContent = arrNote[i].noteName;
         noteName.textContent = arrNote[i].noteName;
         let date = document.createElement('p');
         date.textContent = arrNote[i].time;
         arrNote[i].timeView = date;
-        // date.id = 'timeN';
         noteIcon.appendChild(noteName);
         noteIcon.appendChild(date);
         noteIcon.classList.add('note');
@@ -139,8 +140,8 @@ function unselectedCN() {
         choseNote.classList.remove('note-selected');
     }
     for (let i = 0; i < arrNote.length; i++) {
-        if (arrNote[i].selected) {
-            arrNote[i].selected = false;
+        if (arrNote[i].isSelected) {
+            arrNote[i].isSelected = false;
             break;
         }
     }
@@ -153,7 +154,7 @@ window.addEventListener('hashchange', function () {
             let note = document.getElementById(arrNote[i].id);
             unselectedCN();
             note.classList.add('note-selected');
-            arrNote[i].selected = true;
+            arrNote[i].isSelected = true;
             document.getElementById('nameN').value = arrNote[i].noteName;
             document.getElementById('textN').value = arrNote[i].noteText;
             return;
@@ -190,3 +191,16 @@ function getRandomID(min, max) {
     return int.toString();
 }
 
+function sortNoteMenu() {
+    for (let i = 0; i < arrNote.length; i++) {
+        if (arrNote[i].isSelected === true) {
+            let temp = arrNote[i];
+            arrNote.splice(i, 1);
+            arrNote.unshift(temp);
+            let tempNote = document.querySelector('.note-selected');
+            document.querySelector('.note-navigation').removeChild(document.querySelector('.note-navigation').children[i]);
+            document.querySelector('.note-navigation').insertBefore(tempNote, document.querySelector('.note-navigation').firstChild);
+            break;
+        }
+    }
+}
