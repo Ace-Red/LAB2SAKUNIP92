@@ -69,17 +69,19 @@ header{
 }
 .note{
     width:87%;
+    max-width: 370px;
     height: 30px;
     padding: 25px;
     letter-spacing: .05em;
     font-size: 20px;
-    color: white;
+    color: #ffffff;
     border: black 2px solid;
     background-color: #264653;
 }
 .note-selected{
     width:87%;
     height: 30px;
+    max-width: 370px;
     padding: 25px;
     letter-spacing: .05em;
     font-size: 20px;

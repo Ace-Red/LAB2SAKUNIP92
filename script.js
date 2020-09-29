@@ -13,23 +13,23 @@ add.onclick = function () {
         isSelected: false,
         timeView: null
     };
-    //создаю иконку слева(для выбора заметки)
+    const noteName = document.createElement('span');
+    noteName.id = note.id + 'n';
     let noteIcon = document.createElement('p');
     noteIcon.id = note.id;
     let date = document.createElement('p');
     date.textContent = note.time;
-    date.id = 'timeN';
-    noteIcon.textContent = note.noteName;
+    note.timeView = date;
+    noteName.textContent = note.noteName;
     noteIcon.classList.add('note');
+    noteIcon.appendChild(noteName);
     noteIcon.appendChild(date);
     arrNote.unshift(note);
     document.querySelector('.note-navigation').insertBefore(noteIcon, document.querySelector('.note-navigation').firstChild);
     localStorage.setItem('storedNotes', JSON.stringify(arrNote));
 }
 
-//перемещение между заметками(выбор)
-document.querySelector('.note-navigation').onclick = function (event) {
-    let idNote = event.target.id;
+function changeID (idNote) {
     let selectedNote;
     unselectedCN();
     for (let i = 0; i < arrNote.length; i++) {
@@ -95,6 +95,12 @@ document.querySelector('.note-navigation').onclick = function (event) {
         }
         localStorage.setItem('storedNotes', JSON.stringify(arrNote));
     }
+}
+
+//перемещение между заметками(выбор)
+document.querySelector('.note-navigation').onclick = function (event) {
+    let idNote = event.target.id;
+    changeID(idNote);
 
 }
 //обновление окна
@@ -117,7 +123,6 @@ window.onload = function () {
     }
     arrNote = JSON.parse(localStorage.getItem('storedNotes'));
     for (let i = 0; i < arrNote.length; i++) {
-
         let noteIcon = document.createElement('p');
         const noteName = document.createElement('span');
         noteName.id = arrNote[i].id + 'n';
@@ -131,6 +136,8 @@ window.onload = function () {
         noteIcon.classList.add('note');
         document.querySelector('.note-navigation').appendChild(noteIcon);
     }
+    let IdNote = location.hash.substr(1);
+    changeID(IdNote);
 }
 
 //Пересмена заметки(удаление выделения)
