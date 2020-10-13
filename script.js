@@ -70,14 +70,6 @@ function changeID (idNote) {
             sortNoteMenu();
         }
     }
-    input.onchange = function () {
-        for (let i = 0; i < arrNote.length; i++) {
-            if (arrNote[i].isSelected === true) {
-                break;
-            }
-        }
-        localStorage.setItem('storedNotes', JSON.stringify(arrNote));
-    }
     textArea.oninput = function () {
         selectedNote.noteText = textArea.value;
         selectedNote.time = new Date().toLocaleTimeString() + " " + new Date().toLocaleDateString();
@@ -85,15 +77,6 @@ function changeID (idNote) {
         if (arrNote[0].isSelected === false) {
             sortNoteMenu();
         }
-    }
-    textArea.onchange = function () {
-        for (let i = 0; i < arrNote.length; i++) {
-            if (arrNote[i].isSelected === true) {
-                arrNote[i].noteText = document.getElementById('textN').value;
-                break;
-            }
-        }
-        localStorage.setItem('storedNotes', JSON.stringify(arrNote));
     }
 }
 
@@ -167,9 +150,6 @@ window.addEventListener('hashchange', function () {
             return;
         }
     }
-    location.hash = '';
-    document.getElementById('nameN').value = '';
-    document.getElementById('textN').value = '';
     unselectedCN();
 })
 
